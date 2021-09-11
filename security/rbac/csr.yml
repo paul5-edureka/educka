@@ -1,0 +1,21 @@
+kind: CertificateSigningRequest
+apiVersion: certificates.k8s.io/v1beta1
+metadata:
+   name: prod-user
+spec:
+  groups:
+    - system:authenticated
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ2FqQ0NBVklDQVFBd0pURVNNQkFHQTFVRUF3d0pjSEp2WkMxMWMyVnlNUTh3RFFZRFZRUUtEQVprWlhadgpjSE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRQzdtb0hobFNLUngwamNBSWtYCkhndnNtNWlPT1JrcFY2RElpTEo0NmpZNW1hU0gxZ1dTM0F4cXdocVlvbG15em9NLzU0WUEydFlYVTUwWjhCVWEKN3dDTkRBTG1tRHVTdHdCM3IweDFHanE1WGtxYnhHMUpsSWdQYm9HVWdkNFBOTm9WZkdKeFQrTEtOS1dJZnJNRQo4Z2RmZmFKcHZwcmMrdldKTzFJR1QxT0NxU3lhaFlEanI5d3JCUWVQY2RRd2JsR1RNOCtjL0NGUFJDNVpvSnZLClM0TDZNMlpCOG54ejdoZEVvUmxUdjRhc3ZKaEg2TFMrdE45VDE1THE0ZUdnNWE1L202ODA1Y0RmVGJiTklpM2oKNGJQQUxWM0w2RXBJWEJDMWZTVER5cCt1dW5qNmpTUWUyVVlyOTZzeEZDT2ZUMm5TNVpQcmdVNXpva2hTVmxnNwp0cys1QWdNQkFBR2dBREFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBcVlRYUxHU0Z5aFVtVUdiYVk2YVNqMXFHCldOTmZYcmFWaWFGTTBQcDVld2FYWTBVaU1HamZ5U1NVZDJobGhJdXVTVXlFdkdWOWUzT25oU3ovb2xyMnZVUVUKNW0yS3liY2dJSDRKTEpsZDBkdVJMWnZHdDVrazVuU0hzcEtaZ2RLaERhQm90SDBvNDNMVFNGWitpMnRyOWlQdAp1L2djZll1Wk0ybzl5SnJNZE1PRnN1c1EwS2x5VkFha1NlY2xpYlErM0dpVnJlZHo5S1dDZ3FiZEloUlZTNWxmCmRldVpXRjNWME9xTnZwUEtUN1pyRTBpQ2dQS3FrMGZEejRlVG5EYmJUeXNqeWlpVGo3VGFoc3ZJYWZsOWt0a0sKaGNaUGNYVVhGWjR1TmU3aVZQUG04SUN5U2FjT00rYTNjS284OXd4eE1EQlRrd1VyM1VkVU5zejBsTVdkRXc9PQotLS0tLUVORCBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0=
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
+
+# openssl genrsa -out prod-user.key 2048
+# openssl req -config csr.conf -new -key prod-user.key -nodes -out prod-user.csr
+# cat prod-user.csr | base64 | tr -d '\n'
+# kubectl apply -f csr.yml
+# kubectl get csr ; kubectl certificate approve prod-user
+# kubectl get csr prod-user -o jsonpath="{.status.certificate}" | base64 --decode > prod-user.crt
+# modify kubeconfig with 
